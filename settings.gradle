@@ -9,5 +9,5 @@ pluginManagement {
     }
 }
 rootProject.name='hello-service'
-include 'domain'
+include 'domain', 'application'
 
