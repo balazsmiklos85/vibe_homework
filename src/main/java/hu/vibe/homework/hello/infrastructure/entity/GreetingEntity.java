@@ -1,4 +1,4 @@
-package hu.vibe.homework.hello.domain;
+package hu.vibe.homework.hello.infrastructure.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -6,7 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.validation.constraints.Min;
 
 @Entity
-public class Greeting {
+public class GreetingEntity {
 
     @Id
     @GeneratedValue
@@ -17,10 +17,10 @@ public class Greeting {
     @Min(0)
     private long callCount;
 
-    public Greeting() {
+    public GreetingEntity() {
     }
 
-    public Greeting(String name) {
+    public GreetingEntity(String name) {
         this.name = name;
         this.callCount = 0;
     }

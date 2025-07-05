@@ -21,7 +21,7 @@ public class GreetingService implements GreetingPort {
         Greeting greeting = greetingRepository.findByName(GREETING_NAME)
                 .orElseGet(() -> {
                     Greeting newGreeting = new Greeting(GREETING_NAME);
-                    greetingRepository.persist(newGreeting);
+                    greetingRepository.save(newGreeting);
                     return newGreeting;
                 });
 
