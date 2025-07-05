@@ -15,6 +15,12 @@ class GreetingResourceTest {
           .then()
              .statusCode(200)
              .body(is("Hello from Hexagonal Architecture! You are the 1. visitor."));
+
+        given()
+            .when().get("/hello")
+            .then()
+                .statusCode(200)
+                .body(is("Hello from Hexagonal Architecture! You are the 2. visitor."));
     }
 
 }

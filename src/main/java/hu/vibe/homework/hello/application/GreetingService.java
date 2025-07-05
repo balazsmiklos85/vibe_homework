@@ -19,13 +19,10 @@ public class GreetingService implements GreetingPort {
     @Transactional
     public String getGreeting() {
         Greeting greeting = greetingRepository.findByName(GREETING_NAME)
-                .orElseGet(() -> {
-                    Greeting newGreeting = new Greeting(GREETING_NAME);
-                    greetingRepository.save(newGreeting);
-                    return newGreeting;
-                });
+                .orElseGet(() -> new Greeting(GREETING_NAME));
 
         greeting.incrementCallCount();
+        greetingRepository.save(greeting);
 
         return String.format("Hello from Hexagonal Architecture! You are the %d. visitor.", greeting.getCallCount());
     }
