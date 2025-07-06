@@ -53,6 +53,7 @@ public class OrderService implements OrderPort {
         );
         Order order = new Order(
             null,
+            command.customerId(),
             createdAt,
             totalPrice,
             items,

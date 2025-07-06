@@ -20,6 +20,8 @@ public class OrderEntity {
     @GeneratedValue
     private Long id;
 
+    private Long customerId;
+
     private Instant createdAt;
     private double totalPrice;
 

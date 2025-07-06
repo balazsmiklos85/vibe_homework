@@ -764,3 +764,88 @@ Manual mapping for records in all mappers using default methods.
 Correct imports and explicit type handling for lists.
 Build is now passing and the mapping should work as intended.
 If you encounter any further mapping or API issues, let me know the exact output and I’ll help you debug further!
+
+## Restarting Windsurf because of intensive CPU usage 21:52
+
+> I have a service that handles orders, but I don't know which order belongs to which customer. Add a customer ID to the Order.
+
+I've created an initial plan with notes, a task list for adding a customer ID to the Order entity, and a clear current goal. Now updating the plan file accordingly.
+
+Here’s a summary of the plan updates:
+
+Marked the addition of customerId to 
+Order.java
+ as complete.
+Marked the update of constructors/getters/setters as complete (since 
+Order
+ is a record, this is handled by the record signature).
+Marked the update of relevant service, repository, and DTO classes as in progress (since changes were made to 
+OrderEntity
+, 
+OrderMapper
+, and 
+CreateOrderRequest
+, but further updates may be needed in service logic).
+Added notes about propagation to infrastructure and DTO layers.
+Updated the current goal to focus on updating service/repository logic and database migration.
+Now updating the plan file accordingly.
+
+The plan will be updated to reflect that the propagation of customerId through all relevant service, repository, and DTO classes is now complete. The next focus is on database migration and testing.
+
+Updating plan now.
+
+ have added a customerId field to the entire order flow:
+
+Domain Layer:
+Added customerId to the 
+Order
+ record.
+Updated OrderPort.CreateOrderCommand to include customerId.
+Infrastructure Layer:
+Added customerId to 
+OrderEntity
+ (for database persistence).
+Updated 
+OrderMapper
+ to map customerId between entity and domain.
+Added customerId to the 
+CreateOrderRequest
+ DTO.
+Updated 
+OrderResource
+ to map customerId from the request to the command.
+Application Layer:
+Updated 
+OrderService
+ to propagate customerId from the command to the domain 
+Order
+.
+Next steps:
+
+You will need to update your database schema to add a customer_id column to the ORDERS table, if you are using a relational DB.
+Optionally, update or add tests to verify that the customer ID is correctly handled throughout the order flow.
+Let me know if you want help with the database migration or with updating tests!
+
+## 21:57
+
+> Add and update tests!
+
+Updating the plan to reflect the new user request to add and update tests for customerId propagation in the order flow. The current goal and task list will be updated to focus on test coverage.
+
+ have updated and added tests in 
+OrderServiceTest
+ to verify that the customerId is correctly handled:
+
+The main test now asserts that the customer ID is set and returned as expected.
+A legacy/compatibility test checks that if customerId is not provided (null), it is handled gracefully.
+All usages of 
+CreateOrderCommand
+ in tests have been updated to the new signature.
+The test suite ran successfully and all tests passed.
+Your order service logic is now covered for the new customer ID field!
+
+If you need integration tests for the REST API or want to test the persistence layer (e.g., 
+OrderEntity
+), let me know!
+
+

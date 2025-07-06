@@ -23,7 +23,8 @@ class OrderServiceTest {
         );
         Address shipping = new Address("Alice", "Budapest", "Main St 1", "Apt 2", "Hungary", "Pest", "1234");
         Address billing = new Address("Bob", "Debrecen", "Second St 5", "", "Hungary", "Hajdu", "5678");
-        OrderPort.CreateOrderCommand cmd = new OrderPort.CreateOrderCommand(items, OrderStatus.ORDERED, shipping, billing);
+        Long customerId = 123L;
+        OrderPort.CreateOrderCommand cmd = new OrderPort.CreateOrderCommand(items, customerId, OrderStatus.ORDERED, shipping, billing);
 
         Mockito.when(repo.save(Mockito.any())).thenAnswer(inv -> inv.getArgument(0));
 
@@ -35,6 +36,21 @@ class OrderServiceTest {
         assertEquals("Alice", order.shippingAddress().name());
         assertEquals("Bob", order.billingAddress().name());
         assertNotNull(order.createdAt());
+        assertEquals(customerId, order.customerId());
+    }
+
+    @Test
+    void createOrder_legacyCommand_setsCustomerIdNull() {
+        OrderRepository repo = Mockito.mock(OrderRepository.class);
+        OrderService service = new OrderService(repo);
+
+        List<OrderItem> items = List.of(new OrderItem("P1", 1, 10.0));
+        Address addr = new Address("A", "City", "St", "", "Country", "State", "Zip");
+        // Legacy: no customerId provided
+        OrderPort.CreateOrderCommand cmd = new OrderPort.CreateOrderCommand(items, null, null, addr, addr);
+        Mockito.when(repo.save(Mockito.any())).thenAnswer(inv -> inv.getArgument(0));
+        Order order = service.createOrder(cmd);
+        assertNull(order.customerId());
     }
 
     @Test
@@ -43,7 +59,7 @@ class OrderServiceTest {
         OrderService service = new OrderService(repo);
         List<OrderItem> items = List.of(new OrderItem("P1", 1, 5.0));
         Address addr = new Address("C", "City", "St", "", "Country", "State", "Zip");
-        OrderPort.CreateOrderCommand cmd = new OrderPort.CreateOrderCommand(items, null, addr, addr);
+        OrderPort.CreateOrderCommand cmd = new OrderPort.CreateOrderCommand(items, null, null, addr, addr);
         Mockito.when(repo.save(Mockito.any())).thenAnswer(inv -> inv.getArgument(0));
         Order order = service.createOrder(cmd);
         assertEquals(OrderStatus.CART, order.status());

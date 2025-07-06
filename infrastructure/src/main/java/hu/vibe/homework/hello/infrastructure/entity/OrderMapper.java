@@ -20,6 +20,7 @@ public interface OrderMapper {
         var billing = addressMapper.toDomain(entity.getBillingAddress());
         return new Order(
             entity.getId(),
+            entity.getCustomerId(),
             entity.getCreatedAt(),
             entity.getTotalPrice(),
             items,
@@ -35,6 +36,7 @@ public interface OrderMapper {
         var addressMapper = AddressMapper.INSTANCE;
         OrderEntity entity = new OrderEntity();
         entity.setId(domain.id());
+        entity.setCustomerId(domain.customerId());
         entity.setCreatedAt(domain.createdAt());
         entity.setTotalPrice(domain.totalPrice());
         entity.setItems(domain.items() == null ? List.<OrderItemEntity>of() : new java.util.ArrayList<OrderItemEntity>(domain.items().stream().map(itemMapper::toEntity).toList()));

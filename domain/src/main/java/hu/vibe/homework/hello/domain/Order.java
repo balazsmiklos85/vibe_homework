@@ -5,6 +5,7 @@ import java.util.List;
 
 public record Order(
     Long id,
+    Long customerId,
     Instant createdAt,
     double totalPrice,
     List<OrderItem> items,

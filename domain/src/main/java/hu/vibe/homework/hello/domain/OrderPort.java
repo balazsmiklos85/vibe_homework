@@ -10,6 +10,7 @@ public interface OrderPort {
 
     record CreateOrderCommand(
         List<OrderItem> items,
+        Long customerId,
         OrderStatus status,
         Address shippingAddress,
         Address billingAddress

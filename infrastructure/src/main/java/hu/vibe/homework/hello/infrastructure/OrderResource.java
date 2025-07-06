@@ -44,7 +44,7 @@ public class OrderResource {
             request.billingAddress().state(),
             request.billingAddress().zipCode()
         );
-        var command = new hu.vibe.homework.hello.domain.OrderPort.CreateOrderCommand(items, status, shipping, billing);
+        var command = new hu.vibe.homework.hello.domain.OrderPort.CreateOrderCommand(items, request.customerId(), status, shipping, billing);
         var order = orderPort.createOrder(command);
         return Response.status(Response.Status.CREATED).entity(order.id()).build();
     }
