@@ -1,0 +1,22 @@
+plugins {
+    id 'java-library'
+    id 'io.quarkus'
+}
+
+
+println "Quarkus Platform: ${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+	implementation project(":domain")
+	implementation project(":application")
+	
+	implementation 'io.quarkus:quarkus-hibernate-orm-panache'
+	implementation 'io.quarkus:quarkus-arc'
+    implementation 'io.quarkus:quarkus-rest'
+}

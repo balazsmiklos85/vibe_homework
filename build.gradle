@@ -1,6 +1,5 @@
 plugins {
     id 'java'
-    id 'io.quarkus'
 }
 
 repositories {
@@ -8,17 +7,21 @@ repositories {
     mavenLocal()
 }
 
+subprojects {
+    apply plugin: 'java-library'
+
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+
+    dependencies {
+        api enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+    }
+}
+
 dependencies {
-    implementation project(':domain')
-    implementation project(':application')
-    implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
-    implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
-    implementation 'io.quarkus:quarkus-arc'
-    implementation 'io.quarkus:quarkus-rest'
-    implementation 'io.quarkus:quarkus-hibernate-orm-panache'
-    implementation 'io.quarkus:quarkus-jdbc-h2'
-    implementation 'io.quarkus:quarkus-hibernate-validator'
-    testImplementation 'io.quarkus:quarkus-junit5'
+    implementation project(':infrastructure')
     testImplementation 'io.rest-assured:rest-assured'
 }
 
