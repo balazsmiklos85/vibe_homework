@@ -58,4 +58,30 @@ public class OrderResource {
                 .map(order -> Response.ok(order).build())
                 .orElse(Response.status(Response.Status.NOT_FOUND).build());
     }
+
+    @PATCH
+    @Path("/{id}/shipping-address")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateShippingAddress(@PathParam("id") String id, hu.vibe.homework.hello.infrastructure.dto.UpdateShippingAddressRequest request) {
+        java.util.UUID uuid = java.util.UUID.fromString(id);
+        var addressDto = request.shippingAddress();
+        var address = new hu.vibe.homework.hello.domain.Address(
+            addressDto.name(),
+            addressDto.city(),
+            addressDto.streetAddress(),
+            addressDto.additionalStreetAddress(),
+            addressDto.country(),
+            addressDto.state(),
+            addressDto.zipCode()
+        );
+        try {
+            orderPort.updateShippingAddress(uuid, address);
+            return Response.ok().build();
+        } catch (IllegalArgumentException e) {
+            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+        } catch (IllegalStateException e) {
+            return Response.status(Response.Status.CONFLICT).entity(e.getMessage()).build();
+        }
+    }
 }
