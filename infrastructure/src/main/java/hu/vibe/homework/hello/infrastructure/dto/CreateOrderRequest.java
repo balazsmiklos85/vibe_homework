@@ -1,4 +1,12 @@
 package hu.vibe.homework.hello.infrastructure.dto;
 
-public record CreateOrderRequest(String description) {
-}
+import java.util.List;
+
+public record CreateOrderRequest(
+    List<OrderItemRequest> items,
+    String status,
+    AddressRequest shippingAddress,
+    AddressRequest billingAddress
+) {}
+
+

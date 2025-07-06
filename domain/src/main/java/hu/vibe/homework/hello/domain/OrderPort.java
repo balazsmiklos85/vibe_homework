@@ -2,7 +2,18 @@ package hu.vibe.homework.hello.domain;
 
 import java.util.Optional;
 
+import java.util.List;
+
 public interface OrderPort {
-    Order createOrder(String description);
+    Order createOrder(CreateOrderCommand command);
     Optional<Order> getOrder(Long id);
+
+    record CreateOrderCommand(
+        List<OrderItem> items,
+        OrderStatus status,
+        Address shippingAddress,
+        Address billingAddress
+    ) {}
 }
+
+
