@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.Optional;
 import java.util.List;
 import java.time.Instant;
+import java.util.UUID;
 
 @ApplicationScoped
 @RequiredArgsConstructor(onConstructor_ = @Inject)
@@ -66,7 +67,7 @@ public class OrderService implements OrderPort {
 
 
     @Override
-    public Optional<Order> getOrder(Long id) {
+    public Optional<Order> getOrder(UUID id) {
         return orderRepository.findOrderById(id);
     }
 }

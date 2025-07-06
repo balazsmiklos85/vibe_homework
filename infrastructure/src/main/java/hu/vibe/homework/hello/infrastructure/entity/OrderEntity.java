@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -18,9 +19,9 @@ public class OrderEntity {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private UUID id;
 
-    private Long customerId;
+    private UUID customerId;
 
     private Instant createdAt;
     private double totalPrice;

@@ -6,7 +6,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import java.net.URI;
+
 import lombok.RequiredArgsConstructor;
 
 
@@ -52,8 +52,9 @@ public class OrderResource {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getOrder(@PathParam("id") Long id) {
-        return orderPort.getOrder(id)
+    public Response getOrder(@PathParam("id") String id) {
+        java.util.UUID uuid = java.util.UUID.fromString(id);
+        return orderPort.getOrder(uuid)
                 .map(order -> Response.ok(order).build())
                 .orElse(Response.status(Response.Status.NOT_FOUND).build());
     }

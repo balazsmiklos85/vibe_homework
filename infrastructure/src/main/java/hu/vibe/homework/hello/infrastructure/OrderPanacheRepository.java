@@ -19,8 +19,10 @@ public class OrderPanacheRepository implements PanacheRepository<OrderEntity>, O
     private final OrderMapper orderMapper;
 
     @Override
-    public Optional<Order> findOrderById(Long id) {
-        return findByIdOptional(id).map(orderMapper::toDomain);
+    public Optional<Order> findOrderById(java.util.UUID id) {
+        // PanacheRepository should support findByIdOptional(UUID), but if not, use find().firstResultOptional()
+        Optional<OrderEntity> entityOpt = find("id", id).firstResultOptional();
+        return entityOpt.map(orderMapper::toDomain);
     }
 
     @Override

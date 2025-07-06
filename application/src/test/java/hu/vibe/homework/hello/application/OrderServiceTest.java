@@ -8,6 +8,7 @@ import org.mockito.Mockito;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,7 +24,7 @@ class OrderServiceTest {
         );
         Address shipping = new Address("Alice", "Budapest", "Main St 1", "Apt 2", "Hungary", "Pest", "1234");
         Address billing = new Address("Bob", "Debrecen", "Second St 5", "", "Hungary", "Hajdu", "5678");
-        Long customerId = 123L;
+        UUID customerId = UUID.randomUUID();
         OrderPort.CreateOrderCommand cmd = new OrderPort.CreateOrderCommand(items, customerId, OrderStatus.ORDERED, shipping, billing);
 
         Mockito.when(repo.save(Mockito.any())).thenAnswer(inv -> inv.getArgument(0));
