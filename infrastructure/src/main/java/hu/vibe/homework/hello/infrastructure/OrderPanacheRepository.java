@@ -7,31 +7,32 @@ import hu.vibe.homework.hello.infrastructure.entity.OrderMapper;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import java.util.Optional;
+import java.util.UUID;
+
 import lombok.RequiredArgsConstructor;
 
 @ApplicationScoped
 @RequiredArgsConstructor(onConstructor_ = @Inject)
 public class OrderPanacheRepository implements PanacheRepository<OrderEntity>, OrderRepository {
 
+    private final EntityManager em;
     private final OrderMapper orderMapper;
 
     @Override
-    public Optional<Order> findOrderById(java.util.UUID id) {
+    public Optional<Order> findOrderById(UUID id) {
         // PanacheRepository should support findByIdOptional(UUID), but if not, use
         // find().firstResultOptional()
         Optional<OrderEntity> entityOpt = find("id", id).firstResultOptional();
         return entityOpt.map(orderMapper::toDomain);
     }
 
-    @jakarta.inject.Inject
-    jakarta.persistence.EntityManager em;
-
     @Override
     @Transactional
     public Order save(Order order) {
-        var entity = orderMapper.toEntity(order);
+        OrderEntity entity = orderMapper.toEntity(order);
         if (entity.getId() == null) {
             persist(entity);
             return orderMapper.toDomain(entity);
