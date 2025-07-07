@@ -8,6 +8,6 @@ pluginManagement {
         id "${quarkusPluginId}" version "${quarkusPluginVersion}"
     }
 }
-rootProject.name='hello-service'
+rootProject.name='order-service'
 include 'domain', 'application', 'infrastructure'
 
