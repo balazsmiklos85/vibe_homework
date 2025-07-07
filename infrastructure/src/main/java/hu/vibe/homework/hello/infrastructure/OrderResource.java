@@ -3,6 +3,7 @@ package hu.vibe.homework.hello.infrastructure;
 import hu.vibe.homework.hello.domain.CreateOrderUseCase;
 import hu.vibe.homework.hello.domain.GetOrderUseCase;
 import hu.vibe.homework.hello.domain.UpdateShippingAddressUseCase;
+import hu.vibe.homework.hello.infrastructure.dto.AddressRequestMapper;
 import hu.vibe.homework.hello.infrastructure.dto.CreateOrderRequest;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -35,22 +36,8 @@ public class OrderResource {
         var status = request.status() != null
                 ? hu.vibe.homework.hello.domain.OrderStatus.valueOf(request.status())
                 : hu.vibe.homework.hello.domain.OrderStatus.CART;
-        var shipping = new hu.vibe.homework.hello.domain.Address(
-                request.shippingAddress().name(),
-                request.shippingAddress().city(),
-                request.shippingAddress().streetAddress(),
-                request.shippingAddress().additionalStreetAddress(),
-                request.shippingAddress().country(),
-                request.shippingAddress().state(),
-                request.shippingAddress().zipCode());
-        var billing = new hu.vibe.homework.hello.domain.Address(
-                request.billingAddress().name(),
-                request.billingAddress().city(),
-                request.billingAddress().streetAddress(),
-                request.billingAddress().additionalStreetAddress(),
-                request.billingAddress().country(),
-                request.billingAddress().state(),
-                request.billingAddress().zipCode());
+        var shipping = AddressRequestMapper.toDomain(request.shippingAddress());
+        var billing = AddressRequestMapper.toDomain(request.billingAddress());
         var command = new hu.vibe.homework.hello.domain.CreateOrderUseCase.CreateOrderCommand(
                 items, request.customerId(), status, shipping, billing);
         var order = createOrderUseCase.createOrder(command);
@@ -77,14 +64,7 @@ public class OrderResource {
             hu.vibe.homework.hello.infrastructure.dto.UpdateShippingAddressRequest request) {
         java.util.UUID uuid = java.util.UUID.fromString(id);
         var addressDto = request.shippingAddress();
-        var address = new hu.vibe.homework.hello.domain.Address(
-                addressDto.name(),
-                addressDto.city(),
-                addressDto.streetAddress(),
-                addressDto.additionalStreetAddress(),
-                addressDto.country(),
-                addressDto.state(),
-                addressDto.zipCode());
+        var address = AddressRequestMapper.toDomain(addressDto);
         try {
             updateShippingAddressUseCase.updateShippingAddress(uuid, address);
             return Response.ok().build();

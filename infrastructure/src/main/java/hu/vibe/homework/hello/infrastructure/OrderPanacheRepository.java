@@ -25,11 +25,19 @@ public class OrderPanacheRepository implements PanacheRepository<OrderEntity>, O
         return entityOpt.map(orderMapper::toDomain);
     }
 
+    @jakarta.inject.Inject
+    jakarta.persistence.EntityManager em;
+
     @Override
     @Transactional
     public Order save(Order order) {
         var entity = orderMapper.toEntity(order);
-        persist(entity);
-        return orderMapper.toDomain(entity);
+        if (entity.getId() == null) {
+            persist(entity);
+            return orderMapper.toDomain(entity);
+        } else {
+            OrderEntity merged = em.merge(entity);
+            return orderMapper.toDomain(merged);
+        }
     }
 }
