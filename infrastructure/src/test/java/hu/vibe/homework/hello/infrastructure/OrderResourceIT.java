@@ -1,7 +1,6 @@
 package hu.vibe.homework.hello.infrastructure;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
 
 import hu.vibe.homework.hello.infrastructure.dto.*;
 import io.quarkus.test.junit.QuarkusTest;
