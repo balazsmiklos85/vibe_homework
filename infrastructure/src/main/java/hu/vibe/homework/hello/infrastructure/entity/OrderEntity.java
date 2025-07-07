@@ -1,6 +1,11 @@
 package hu.vibe.homework.hello.infrastructure.entity;
 
+import hu.vibe.homework.hello.domain.OrderStatus;
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.AttributeOverrides;
+import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -30,57 +35,33 @@ public class OrderEntity {
     private List<OrderItemEntity> items;
 
     @Enumerated(EnumType.STRING)
-    private hu.vibe.homework.hello.domain.OrderStatus status;
+    private OrderStatus status;
 
-    @jakarta.persistence.Embedded
-    @jakarta.persistence.AttributeOverrides({
-        @jakarta.persistence.AttributeOverride(
-                name = "name",
-                column = @jakarta.persistence.Column(name = "shipping_name")),
-        @jakarta.persistence.AttributeOverride(
-                name = "city",
-                column = @jakarta.persistence.Column(name = "shipping_city")),
-        @jakarta.persistence.AttributeOverride(
-                name = "streetAddress",
-                column = @jakarta.persistence.Column(name = "shipping_street_address")),
-        @jakarta.persistence.AttributeOverride(
+    @Embedded
+    @AttributeOverrides({
+        @AttributeOverride(name = "name", column = @Column(name = "shipping_name")),
+        @AttributeOverride(name = "city", column = @Column(name = "shipping_city")),
+        @AttributeOverride(name = "streetAddress", column = @Column(name = "shipping_street_address")),
+        @AttributeOverride(
                 name = "additionalStreetAddress",
-                column = @jakarta.persistence.Column(name = "shipping_additional_street_address")),
-        @jakarta.persistence.AttributeOverride(
-                name = "country",
-                column = @jakarta.persistence.Column(name = "shipping_country")),
-        @jakarta.persistence.AttributeOverride(
-                name = "state",
-                column = @jakarta.persistence.Column(name = "shipping_state")),
-        @jakarta.persistence.AttributeOverride(
-                name = "zipCode",
-                column = @jakarta.persistence.Column(name = "shipping_zip_code"))
+                column = @Column(name = "shipping_additional_street_address")),
+        @AttributeOverride(name = "country", column = @Column(name = "shipping_country")),
+        @AttributeOverride(name = "state", column = @Column(name = "shipping_state")),
+        @AttributeOverride(name = "zipCode", column = @Column(name = "shipping_zip_code"))
     })
     private AddressEntity shippingAddress;
 
-    @jakarta.persistence.Embedded
-    @jakarta.persistence.AttributeOverrides({
-        @jakarta.persistence.AttributeOverride(
-                name = "name",
-                column = @jakarta.persistence.Column(name = "billing_name")),
-        @jakarta.persistence.AttributeOverride(
-                name = "city",
-                column = @jakarta.persistence.Column(name = "billing_city")),
-        @jakarta.persistence.AttributeOverride(
-                name = "streetAddress",
-                column = @jakarta.persistence.Column(name = "billing_street_address")),
-        @jakarta.persistence.AttributeOverride(
+    @Embedded
+    @AttributeOverrides({
+        @AttributeOverride(name = "name", column = @Column(name = "billing_name")),
+        @AttributeOverride(name = "city", column = @Column(name = "billing_city")),
+        @AttributeOverride(name = "streetAddress", column = @Column(name = "billing_street_address")),
+        @AttributeOverride(
                 name = "additionalStreetAddress",
-                column = @jakarta.persistence.Column(name = "billing_additional_street_address")),
-        @jakarta.persistence.AttributeOverride(
-                name = "country",
-                column = @jakarta.persistence.Column(name = "billing_country")),
-        @jakarta.persistence.AttributeOverride(
-                name = "state",
-                column = @jakarta.persistence.Column(name = "billing_state")),
-        @jakarta.persistence.AttributeOverride(
-                name = "zipCode",
-                column = @jakarta.persistence.Column(name = "billing_zip_code"))
+                column = @Column(name = "billing_additional_street_address")),
+        @AttributeOverride(name = "country", column = @Column(name = "billing_country")),
+        @AttributeOverride(name = "state", column = @Column(name = "billing_state")),
+        @AttributeOverride(name = "zipCode", column = @Column(name = "billing_zip_code"))
     })
     private AddressEntity billingAddress;
 }
