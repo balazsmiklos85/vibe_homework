@@ -5,11 +5,11 @@ import java.util.UUID;
 
 public interface CreateOrderUseCase {
     Order createOrder(CreateOrderCommand command);
+
     record CreateOrderCommand(
-        List<OrderItem> items,
-        UUID customerId,
-        OrderStatus status,
-        Address shippingAddress,
-        Address billingAddress
-    ) {}
+            List<OrderItem> items,
+            UUID customerId,
+            OrderStatus status,
+            Address shippingAddress,
+            Address billingAddress) {}
 }

@@ -1,16 +1,14 @@
 package hu.vibe.homework.hello.infrastructure;
 
-import hu.vibe.homework.hello.domain.*;
-import hu.vibe.homework.hello.infrastructure.dto.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-
-import jakarta.ws.rs.core.Response;
-import java.util.*;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+
+import hu.vibe.homework.hello.domain.*;
+import hu.vibe.homework.hello.infrastructure.dto.*;
+import jakarta.ws.rs.core.Response;
+import java.util.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class OrderResourceTest {
     private CreateOrderUseCase createOrderUseCase;
@@ -81,7 +79,9 @@ class OrderResourceTest {
         var req = mock(UpdateShippingAddressRequest.class);
         var addressDto = mock(AddressRequest.class);
         when(req.shippingAddress()).thenReturn(addressDto);
-        doThrow(new IllegalArgumentException("Order not found")).when(updateShippingAddressUseCase).updateShippingAddress(any(), any());
+        doThrow(new IllegalArgumentException("Order not found"))
+                .when(updateShippingAddressUseCase)
+                .updateShippingAddress(any(), any());
         Response resp = resource.updateShippingAddress(id.toString(), req);
         assertEquals(Response.Status.NOT_FOUND.getStatusCode(), resp.getStatus());
     }
@@ -92,7 +92,9 @@ class OrderResourceTest {
         var req = mock(UpdateShippingAddressRequest.class);
         var addressDto = mock(AddressRequest.class);
         when(req.shippingAddress()).thenReturn(addressDto);
-        doThrow(new IllegalStateException("Invalid state")).when(updateShippingAddressUseCase).updateShippingAddress(any(), any());
+        doThrow(new IllegalStateException("Invalid state"))
+                .when(updateShippingAddressUseCase)
+                .updateShippingAddress(any(), any());
         Response resp = resource.updateShippingAddress(id.toString(), req);
         assertEquals(Response.Status.CONFLICT.getStatusCode(), resp.getStatus());
     }

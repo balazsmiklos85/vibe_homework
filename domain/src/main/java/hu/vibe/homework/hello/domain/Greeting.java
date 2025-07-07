@@ -11,8 +11,7 @@ public class Greeting {
     @Min(0)
     private long callCount;
 
-    public Greeting() {
-    }
+    public Greeting() {}
 
     public Greeting(String name) {
         this.name = name;

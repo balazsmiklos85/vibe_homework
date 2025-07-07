@@ -4,10 +4,9 @@ import hu.vibe.homework.hello.domain.OrderItem;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "jakarta")
-
-
 public interface OrderItemMapper {
     OrderItemMapper INSTANCE = new OrderItemMapper() {};
+
     default OrderItemEntity toEntity(OrderItem item) {
         if (item == null) return null;
         OrderItemEntity entity = new OrderItemEntity();

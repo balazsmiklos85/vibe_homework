@@ -1,14 +1,13 @@
 package hu.vibe.homework.hello.application;
 
-import hu.vibe.homework.hello.domain.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.util.Optional;
-import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+
+import hu.vibe.homework.hello.domain.*;
+import java.util.Optional;
+import java.util.UUID;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class UpdateShippingAddressServiceTest {
     private OrderRepository orderRepository;

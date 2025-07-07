@@ -18,8 +18,7 @@ public class GreetingService implements GreetingPort {
     @Override
     @Transactional
     public String getGreeting() {
-        Greeting greeting = greetingRepository.findByName(GREETING_NAME)
-                .orElseGet(() -> new Greeting(GREETING_NAME));
+        Greeting greeting = greetingRepository.findByName(GREETING_NAME).orElseGet(() -> new Greeting(GREETING_NAME));
 
         greeting.incrementCallCount();
         greetingRepository.save(greeting);

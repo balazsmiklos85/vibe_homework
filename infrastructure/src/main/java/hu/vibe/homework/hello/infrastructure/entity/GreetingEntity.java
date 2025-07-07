@@ -17,8 +17,7 @@ public class GreetingEntity {
     @Min(0)
     private long callCount;
 
-    public GreetingEntity() {
-    }
+    public GreetingEntity() {}
 
     public GreetingEntity(String name) {
         this.name = name;
