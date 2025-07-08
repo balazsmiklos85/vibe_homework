@@ -70,6 +70,7 @@ According to the problem description this is supposed to emulate a carve out of 
 - The project uses Gradle for build automation. That's purely a personal preference, I'm less familiar with Maven, but I also find Gradle settings more readable.
 - It's a multi-module project, because I strongly believe in the separation of concerns. I also trust neither myself, nor the LLM to not make a mess of the dependencies if the structure is not enforced.
 - Hexagonal Architecture was choosen because it's a good fit for microservices. It further emphasizes the separation of concerns, but is not as heavy on abstraction as Clean Architecture.
+- The current database is H2, because the application is expected to run only in a development environment. In a production environment that's clearly not sufficient, there I would use PostgreSQL and then additionally the database schema should be managed by e.g. Liquibase or Flyway.
 
 ## AI collaboration report
 
