@@ -2,9 +2,11 @@ package hu.vibe.homework.order.infrastructure;
 
 import hu.vibe.homework.order.domain.CreateOrderUseCase;
 import hu.vibe.homework.order.domain.GetOrderUseCase;
+import hu.vibe.homework.order.domain.UpdateOrderStatusUseCase;
 import hu.vibe.homework.order.domain.UpdateShippingAddressUseCase;
 import hu.vibe.homework.order.infrastructure.dto.AddressRequestMapper;
 import hu.vibe.homework.order.infrastructure.dto.CreateOrderRequest;
+import hu.vibe.homework.order.infrastructure.dto.UpdateOrderStatusRequest;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
@@ -24,6 +26,7 @@ public class OrderResource {
     private final CreateOrderUseCase createOrderUseCase;
     private final GetOrderUseCase getOrderUseCase;
     private final UpdateShippingAddressUseCase updateShippingAddressUseCase;
+    private final UpdateOrderStatusUseCase updateOrderStatusUseCase;
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -74,6 +77,25 @@ public class OrderResource {
                     .build();
         } catch (IllegalStateException e) {
             return Response.status(Response.Status.CONFLICT)
+                    .entity(e.getMessage())
+                    .build();
+        }
+    }
+
+    @PATCH
+    @Path("/{id}/status")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateOrderStatus(
+            @PathParam("id") String id,
+            UpdateOrderStatusRequest request) {
+        java.util.UUID uuid = java.util.UUID.fromString(id);
+        var status = hu.vibe.homework.order.domain.OrderStatus.valueOf(request.status());
+        try {
+            updateOrderStatusUseCase.updateOrderStatus(uuid, status);
+            return Response.ok().build();
+        } catch (IllegalArgumentException e) {
+            return Response.status(Response.Status.NOT_FOUND)
                     .entity(e.getMessage())
                     .build();
         }

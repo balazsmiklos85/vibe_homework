@@ -60,4 +60,52 @@ class OrderResourceIT {
                 .then()
                 .statusCode(200);
     }
+
+    @Test
+    void updateOrderStatus() throws Exception {
+        var objectMapper = new com.fasterxml.jackson.databind.ObjectMapper();
+
+        // --- Create Order ---
+        var item = new OrderItemRequest("PROD-1", 2, new BigDecimal("1000"));
+        var shipping = new AddressRequest("Alice", "Budapest", "Fo ut 1", "", "Hungary", "", "1234");
+        var billing = new AddressRequest("Bob", "Debrecen", "Baross 2", "", "Hungary", "", "4321");
+        var customerId = java.util.UUID.randomUUID();
+        var createOrder = new CreateOrderRequest(java.util.List.of(item), customerId, "ORDERED", shipping, billing);
+
+        // Serialize request body to JSON
+        String createOrderJson = objectMapper.writeValueAsString(createOrder);
+
+        // Create
+        String orderIdJson = given().contentType("application/json")
+                .body(createOrderJson)
+                .when()
+                .post("/orders")
+                .then()
+                .statusCode(201)
+                .body(org.hamcrest.Matchers.notNullValue())
+                .extract()
+                .asString();
+        String orderId = objectMapper.readValue(orderIdJson, String.class);
+
+        // Update status
+        var updateReq = new UpdateOrderStatusRequest("PAID");
+        String updateReqJson = objectMapper.writeValueAsString(updateReq);
+        given().contentType("application/json")
+                .body(updateReqJson)
+                .when()
+                .patch("/orders/" + orderId + "/status")
+                .then()
+                .statusCode(200);
+
+        // Fetch and verify
+        String fetchResponse = given().when()
+                .get("/orders/" + orderId)
+                .then()
+                .statusCode(200)
+                .extract()
+                .asString();
+        var fetchNode = objectMapper.readTree(fetchResponse);
+        org.junit.jupiter.api.Assertions.assertEquals(
+                "PAID", fetchNode.get("status").asText());
+    }
 }

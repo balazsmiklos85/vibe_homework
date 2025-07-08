@@ -14,6 +14,7 @@ class OrderResourceTest {
     private CreateOrderUseCase createOrderUseCase;
     private GetOrderUseCase getOrderUseCase;
     private UpdateShippingAddressUseCase updateShippingAddressUseCase;
+    private UpdateOrderStatusUseCase updateOrderStatusUseCase;
     private OrderResource resource;
 
     @BeforeEach
@@ -21,7 +22,8 @@ class OrderResourceTest {
         createOrderUseCase = mock(CreateOrderUseCase.class);
         getOrderUseCase = mock(GetOrderUseCase.class);
         updateShippingAddressUseCase = mock(UpdateShippingAddressUseCase.class);
-        resource = new OrderResource(createOrderUseCase, getOrderUseCase, updateShippingAddressUseCase);
+        updateOrderStatusUseCase = mock(UpdateOrderStatusUseCase.class);
+        resource = new OrderResource(createOrderUseCase, getOrderUseCase, updateShippingAddressUseCase, updateOrderStatusUseCase);
     }
 
     @Test
@@ -97,5 +99,25 @@ class OrderResourceTest {
                 .updateShippingAddress(any(), any());
         Response resp = resource.updateShippingAddress(id.toString(), req);
         assertEquals(Response.Status.CONFLICT.getStatusCode(), resp.getStatus());
+    }
+
+    @Test
+    void updateOrderStatus_returnsOk_onSuccess() {
+        UUID id = UUID.randomUUID();
+        var req = new UpdateOrderStatusRequest("PAID");
+        doNothing().when(updateOrderStatusUseCase).updateOrderStatus(id, OrderStatus.PAID);
+        Response resp = resource.updateOrderStatus(id.toString(), req);
+        assertEquals(Response.Status.OK.getStatusCode(), resp.getStatus());
+    }
+
+    @Test
+    void updateOrderStatus_returnsNotFound_onMissingOrder() {
+        UUID id = UUID.randomUUID();
+        var req = new UpdateOrderStatusRequest("PAID");
+        doThrow(new IllegalArgumentException("Order not found"))
+                .when(updateOrderStatusUseCase)
+                .updateOrderStatus(id, OrderStatus.PAID);
+        Response resp = resource.updateOrderStatus(id.toString(), req);
+        assertEquals(Response.Status.NOT_FOUND.getStatusCode(), resp.getStatus());
     }
 }
