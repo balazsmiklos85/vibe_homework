@@ -4,6 +4,7 @@ import static io.restassured.RestAssured.given;
 
 import hu.vibe.homework.order.infrastructure.dto.*;
 import io.quarkus.test.junit.QuarkusTest;
+import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 
 @QuarkusTest
@@ -13,7 +14,7 @@ class OrderResourceIT {
         var objectMapper = new com.fasterxml.jackson.databind.ObjectMapper();
 
         // --- Create Order ---
-        var item = new OrderItemRequest("PROD-1", 2, 1000);
+        var item = new OrderItemRequest("PROD-1", 2, new BigDecimal("1000"));
         var shipping = new AddressRequest("Alice", "Budapest", "Fo ut 1", "", "Hungary", "", "1234");
         var billing = new AddressRequest("Bob", "Debrecen", "Baross 2", "", "Hungary", "", "4321");
         var customerId = java.util.UUID.randomUUID();

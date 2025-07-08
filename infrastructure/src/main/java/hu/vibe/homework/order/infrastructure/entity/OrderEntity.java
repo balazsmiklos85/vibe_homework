@@ -11,6 +11,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
@@ -29,7 +30,7 @@ public class OrderEntity {
     private UUID customerId;
 
     private Instant createdAt;
-    private double totalPrice;
+    private BigDecimal totalPrice;
 
     @ElementCollection
     private List<OrderItemEntity> items;

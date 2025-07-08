@@ -1,6 +1,7 @@
 package hu.vibe.homework.order.infrastructure.entity;
 
 import jakarta.persistence.Embeddable;
+import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,5 +11,5 @@ import lombok.Setter;
 public class OrderItemEntity {
     private String productCode;
     private int quantity;
-    private double unitPrice;
+    private BigDecimal unitPrice;
 }

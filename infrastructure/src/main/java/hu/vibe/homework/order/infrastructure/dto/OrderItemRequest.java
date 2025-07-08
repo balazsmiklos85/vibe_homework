@@ -1,3 +1,5 @@
 package hu.vibe.homework.order.infrastructure.dto;
 
-public record OrderItemRequest(String productCode, int quantity, double unitPrice) {}
+import java.math.BigDecimal;
+
+public record OrderItemRequest(String productCode, int quantity, BigDecimal unitPrice) {}

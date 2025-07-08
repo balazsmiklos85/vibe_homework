@@ -7,6 +7,7 @@ import hu.vibe.homework.order.domain.OrderRepository;
 import hu.vibe.homework.order.domain.OrderStatus;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +19,9 @@ public class CreateOrderService implements hu.vibe.homework.order.domain.CreateO
 
     @Override
     public Order createOrder(hu.vibe.homework.order.domain.CreateOrderUseCase.CreateOrderCommand command) {
-        double totalPrice = command.items().stream()
-                .mapToDouble(item -> item.unitPrice() * item.quantity())
-                .sum();
+        BigDecimal totalPrice = command.items().stream()
+                .map(item -> item.unitPrice().multiply(BigDecimal.valueOf(item.quantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
         Instant createdAt = Instant.now();
         List<OrderItem> items = command.items();
         OrderStatus status = command.status();

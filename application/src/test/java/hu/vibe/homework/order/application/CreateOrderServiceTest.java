@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import hu.vibe.homework.order.domain.*;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +22,10 @@ class CreateOrderServiceTest {
 
     @Test
     void createOrder_savesOrderAndReturnsIt() {
-        var items = List.of(mock(OrderItem.class));
+        var orderItem = mock(OrderItem.class);
+        when(orderItem.unitPrice()).thenReturn(BigDecimal.TEN);
+        when(orderItem.quantity()).thenReturn(1);
+        var items = List.of(orderItem);
         var shipping = mock(Address.class);
         var billing = mock(Address.class);
         var cmd = new CreateOrderUseCase.CreateOrderCommand(
